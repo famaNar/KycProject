@@ -1,0 +1,14 @@
+com/kyc/document/dto/FacialVerificationResponse.class
+com/kyc/document/controller/FacialVerificationController.class
+com/kyc/document/entity/Document.class
+com/kyc/document/entity/DocumentType.class
+com/kyc/document/repository/FacialVerificationRepository.class
+com/kyc/document/service/FacialVerificationService.class
+com/kyc/document/service/DocumentService.class
+com/kyc/document/entity/FacialVerification.class
+com/kyc/document/controller/DocumentController.class
+com/kyc/document/repository/DocumentRepository.class
+com/kyc/document/exception/GlobalExceptionHandler.class
+com/kyc/document/exception/ErrorResponse.class
+com/kyc/document/DocumentServiceApplication.class
+com/kyc/document/dto/DocumentResponse.class

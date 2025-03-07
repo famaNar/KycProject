@@ -1,0 +1,7 @@
+/Users/mfamar/Desktop/ProjetKYC/notification-service/src/main/java/com/kyc/notification/NotificationServiceApplication.java
+/Users/mfamar/Desktop/ProjetKYC/notification-service/src/main/java/com/kyc/notification/controller/NotificationController.java
+/Users/mfamar/Desktop/ProjetKYC/notification-service/src/main/java/com/kyc/notification/config/KafkaConfig.java
+/Users/mfamar/Desktop/ProjetKYC/notification-service/src/main/java/com/kyc/notification/service/ClientEventListener.java
+/Users/mfamar/Desktop/ProjetKYC/notification-service/src/main/java/com/kyc/notification/service/EmailService.java
+/Users/mfamar/Desktop/ProjetKYC/notification-service/src/main/java/com/kyc/notification/model/EventType.java
+/Users/mfamar/Desktop/ProjetKYC/notification-service/src/main/java/com/kyc/notification/model/ClientEvent.java

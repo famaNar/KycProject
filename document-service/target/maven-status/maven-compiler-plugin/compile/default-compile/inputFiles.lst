@@ -1,0 +1,14 @@
+/Users/mfamar/Desktop/ProjetKYC/document-service/src/main/java/com/kyc/document/exception/GlobalExceptionHandler.java
+/Users/mfamar/Desktop/ProjetKYC/document-service/src/main/java/com/kyc/document/service/DocumentService.java
+/Users/mfamar/Desktop/ProjetKYC/document-service/src/main/java/com/kyc/document/dto/FacialVerificationResponse.java
+/Users/mfamar/Desktop/ProjetKYC/document-service/src/main/java/com/kyc/document/repository/FacialVerificationRepository.java
+/Users/mfamar/Desktop/ProjetKYC/document-service/src/main/java/com/kyc/document/controller/DocumentController.java
+/Users/mfamar/Desktop/ProjetKYC/document-service/src/main/java/com/kyc/document/repository/DocumentRepository.java
+/Users/mfamar/Desktop/ProjetKYC/document-service/src/main/java/com/kyc/document/entity/FacialVerification.java
+/Users/mfamar/Desktop/ProjetKYC/document-service/src/main/java/com/kyc/document/DocumentServiceApplication.java
+/Users/mfamar/Desktop/ProjetKYC/document-service/src/main/java/com/kyc/document/exception/ErrorResponse.java
+/Users/mfamar/Desktop/ProjetKYC/document-service/src/main/java/com/kyc/document/entity/DocumentType.java
+/Users/mfamar/Desktop/ProjetKYC/document-service/src/main/java/com/kyc/document/service/FacialVerificationService.java
+/Users/mfamar/Desktop/ProjetKYC/document-service/src/main/java/com/kyc/document/entity/Document.java
+/Users/mfamar/Desktop/ProjetKYC/document-service/src/main/java/com/kyc/document/controller/FacialVerificationController.java
+/Users/mfamar/Desktop/ProjetKYC/document-service/src/main/java/com/kyc/document/dto/DocumentResponse.java
