@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mise à jour du statut de votre compte</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #FF9800;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+        }
+        .content {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+        }
+        .account-info {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .account-info p {
+            margin: 5px 0;
+        }
+        .status-actif {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .status-inactif {
+            color: #FF9800;
+            font-weight: bold;
+        }
+        .status-bloque {
+            color: #F44336;
+            font-weight: bold;
+        }
+        .status-ferme {
+            color: #9E9E9E;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Mise à jour du statut de votre compte</h1>
+    </div>
+    <div class="content">
+        <p>Bonjour <span th:text="${fullName}">Prénom Nom</span>,</p>
+        
+        <p>Nous vous informons que le statut de votre compte a été modifié.</p>
+        
+        <div class="account-info">
+            <h3>Détails du compte :</h3>
+            <p><strong>Intitulé :</strong> <span th:text="${intituleCompte}">Compte Courant</span></p>
+            <p><strong>Numéro de compte :</strong> <span th:text="${numeroCompte}">KYC123456789</span></p>
+            <p><strong>Nouveau statut :</strong> 
+                <span th:class="${'status-' + #strings.toLowerCase(statutCompte)}" th:text="${statutCompte}">ACTIF</span>
+            </p>
+            <p><strong>Date de mise à jour :</strong> <span th:text="${#temporals.format(timestamp, 'dd/MM/yyyy HH:mm')}">01/01/2025 12:00</span></p>
+        </div>
+        
+        <div th:if="${statutCompte == 'ACTIF'}">
+            <p>Votre compte est maintenant <span class="status-actif">actif</span>. Vous pouvez effectuer toutes les opérations bancaires sur ce compte.</p>
+        </div>
+        
+        <div th:if="${statutCompte == 'INACTIF'}">
+            <p>Votre compte est maintenant <span class="status-inactif">inactif</span>. Aucune opération ne peut être effectuée sur ce compte jusqu'à sa réactivation.</p>
+            <p>Si vous souhaitez réactiver votre compte, veuillez contacter notre service client.</p>
+        </div>
+        
+        <div th:if="${statutCompte == 'BLOQUE'}">
+            <p>Votre compte est maintenant <span class="status-bloque">bloqué</span>. Aucune opération ne peut être effectuée sur ce compte.</p>
+            <p>Pour plus d'informations sur les raisons de ce blocage et les démarches à suivre, veuillez contacter notre service client dans les plus brefs délais.</p>
+        </div>
+        
+        <div th:if="${statutCompte == 'FERME'}">
+            <p>Votre compte est maintenant <span class="status-ferme">fermé</span>. Ce compte n'est plus accessible et toutes les opérations sont définitivement arrêtées.</p>
+            <p>Si vous avez des questions concernant la fermeture de ce compte, veuillez contacter notre service client.</p>
+        </div>
+        
+        <p>Cordialement,<br>
+        L'équipe KYC</p>
+    </div>
+    <div class="footer">
+        <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</p>
+        <p>© 2025 KYC Financial Services. Tous droits réservés.</p>
+    </div>
+</body>
+</html>

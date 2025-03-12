@@ -1,5 +1,6 @@
 package com.kyc.notification.service;
 
+import com.kyc.notification.model.ClientEvent;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -92,5 +94,52 @@ public class EmailService {
         );
         
         sendEmail(to, subject, "kyc-rejected", variables);
+    }
+    
+    // Nouvelles méthodes pour les notifications liées aux comptes
+    
+    public void sendAccountCreatedEmail(ClientEvent event) {
+        String subject = "Votre nouveau compte a été créé";
+        
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("fullName", event.getFullName());
+        variables.put("intituleCompte", event.getIntituleCompte());
+        variables.put("numeroCompte", event.getNumeroCompte());
+        variables.put("typeCompte", event.getTypeCompte());
+        variables.put("solde", event.getSolde());
+        variables.put("devise", event.getDevise());
+        variables.put("iban", event.getDetails() != null ? event.getDetails().split("IBAN:")[1].trim() : "");
+        variables.put("bic", "KYCBFRPP");
+        
+        sendEmail(event.getEmail(), subject, "account-created", variables);
+    }
+    
+    public void sendAccountStatusUpdateEmail(ClientEvent event) {
+        String subject = "Mise à jour du statut de votre compte";
+        
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("fullName", event.getFullName());
+        variables.put("intituleCompte", event.getIntituleCompte());
+        variables.put("numeroCompte", event.getNumeroCompte());
+        variables.put("statutCompte", event.getStatutCompte());
+        variables.put("timestamp", event.getTimestamp());
+        
+        sendEmail(event.getEmail(), subject, "account-status-update", variables);
+    }
+    
+    public void sendAccountTransactionEmail(ClientEvent event, boolean isCredit) {
+        String subject = isCredit ? "Crédit sur votre compte" : "Débit sur votre compte";
+        
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("fullName", event.getFullName());
+        variables.put("intituleCompte", event.getIntituleCompte());
+        variables.put("numeroCompte", event.getNumeroCompte());
+        variables.put("montant", event.getMontant());
+        variables.put("solde", event.getSolde());
+        variables.put("devise", event.getDevise());
+        variables.put("timestamp", event.getTimestamp());
+        variables.put("isCredit", isCredit);
+        
+        sendEmail(event.getEmail(), subject, "account-transaction", variables);
     }
 }

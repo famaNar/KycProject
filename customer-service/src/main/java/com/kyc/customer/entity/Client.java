@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "clients")
@@ -74,4 +76,19 @@ public class Client {
     
     @Column(name = "raison_rejet")
     private String raisonRejet;
+    
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Compte> comptes = new ArrayList<>();
+    
+    // Méthode utilitaire pour ajouter un compte
+    public void ajouterCompte(Compte compte) {
+        comptes.add(compte);
+        compte.setClient(this);
+    }
+    
+    // Méthode utilitaire pour supprimer un compte
+    public void supprimerCompte(Compte compte) {
+        comptes.remove(compte);
+        compte.setClient(null);
+    }
 }

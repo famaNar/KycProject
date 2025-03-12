@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -17,4 +18,14 @@ public class ClientEvent {
     private EventType eventType;
     private String details;
     private LocalDateTime timestamp;
+    
+    // Informations sur le compte (pour les événements liés aux comptes)
+    private Long compteId;
+    private String numeroCompte;
+    private String intituleCompte;
+    private String typeCompte;
+    private String statutCompte;
+    private BigDecimal montant;
+    private BigDecimal solde;
+    private String devise;
 }

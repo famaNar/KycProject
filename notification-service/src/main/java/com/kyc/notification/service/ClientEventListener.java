@@ -41,6 +41,27 @@ public class ClientEventListener {
                     logger.info("Traitement de l'événement de rejet KYC : {}", event);
                     emailService.sendKycRejectedEmail(event.getEmail(), event.getFullName(), event.getDetails());
                     break;
+                
+                // Nouveaux cas pour les événements liés aux comptes
+                case ACCOUNT_CREATED:
+                    logger.info("Traitement de l'événement de création de compte : {}", event);
+                    emailService.sendAccountCreatedEmail(event);
+                    break;
+                    
+                case ACCOUNT_STATUS_UPDATED:
+                    logger.info("Traitement de l'événement de mise à jour de statut de compte : {}", event);
+                    emailService.sendAccountStatusUpdateEmail(event);
+                    break;
+                    
+                case ACCOUNT_CREDITED:
+                    logger.info("Traitement de l'événement de crédit de compte : {}", event);
+                    emailService.sendAccountTransactionEmail(event, true);
+                    break;
+                    
+                case ACCOUNT_DEBITED:
+                    logger.info("Traitement de l'événement de débit de compte : {}", event);
+                    emailService.sendAccountTransactionEmail(event, false);
+                    break;
                     
                 default:
                     logger.warn("Type d'événement non pris en charge : {}", event.getEventType());

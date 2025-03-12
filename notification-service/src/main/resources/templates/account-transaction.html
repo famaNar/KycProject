@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction sur votre compte</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+        }
+        .content {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+        }
+        .transaction-info {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .transaction-info p {
+            margin: 5px 0;
+        }
+        .credit {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .debit {
+            color: #F44336;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 th:text="${isCredit ? 'Crédit sur votre compte' : 'Débit sur votre compte'}">Transaction sur votre compte</h1>
+    </div>
+    <div class="content">
+        <p>Bonjour <span th:text="${fullName}">Prénom Nom</span>,</p>
+        
+        <p th:if="${isCredit}">
+            Nous vous informons qu'un <span class="credit">crédit</span> a été effectué sur votre compte.
+        </p>
+        <p th:unless="${isCredit}">
+            Nous vous informons qu'un <span class="debit">débit</span> a été effectué sur votre compte.
+        </p>
+        
+        <div class="transaction-info">
+            <h3>Détails de la transaction :</h3>
+            <p><strong>Compte :</strong> <span th:text="${intituleCompte}">Compte Courant</span></p>
+            <p><strong>Numéro de compte :</strong> <span th:text="${numeroCompte}">KYC123456789</span></p>
+            <p><strong>Date :</strong> <span th:text="${#temporals.format(timestamp, 'dd/MM/yyyy HH:mm')}">01/01/2025 12:00</span></p>
+            <p><strong>Montant :</strong> <span th:class="${isCredit ? 'credit' : 'debit'}" th:text="${montant + ' ' + devise}">100.00 EUR</span></p>
+            <p><strong>Nouveau solde :</strong> <span th:text="${solde + ' ' + devise}">1000.00 EUR</span></p>
+        </div>
+        
+        <p>Si vous n'êtes pas à l'origine de cette transaction ou si vous avez des questions, veuillez contacter immédiatement notre service client.</p>
+        
+        <p>Cordialement,<br>
+        L'équipe KYC</p>
+    </div>
+    <div class="footer">
+        <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</p>
+        <p>© 2025 KYC Financial Services. Tous droits réservés.</p>
+    </div>
+</body>
+</html>

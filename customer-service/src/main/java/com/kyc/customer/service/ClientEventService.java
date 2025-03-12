@@ -1,6 +1,7 @@
 package com.kyc.customer.service;
 
 import com.kyc.customer.entity.Client;
+import com.kyc.customer.entity.Compte;
 import com.kyc.customer.entity.EventType;
 import com.kyc.customer.model.ClientEvent;
 import org.slf4j.Logger;
@@ -8,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 @Service
 public class ClientEventService {
@@ -68,6 +71,98 @@ public class ClientEventService {
                 EventType.KYC_REJECTED,
                 reason
         );
+        publishEvent(event);
+    }
+    
+    // Nouvelles méthodes pour les événements liés aux comptes
+    
+    public void publishClientAccountCreated(Client client, Compte compte) {
+        String fullName = client.getPrenom() + " " + client.getNom();
+        ClientEvent event = new ClientEvent(
+                client.getId(),
+                client.getEmail(),
+                fullName,
+                EventType.ACCOUNT_CREATED,
+                "Nouveau compte créé: " + compte.getIntitule()
+        );
+        
+        // Ajouter les informations du compte
+        event.setCompteId(compte.getId());
+        event.setNumeroCompte(compte.getNumeroCompte());
+        event.setIntituleCompte(compte.getIntitule());
+        event.setTypeCompte(compte.getTypeCompte().name());
+        event.setStatutCompte(compte.getStatutCompte().name());
+        event.setSolde(compte.getSolde());
+        event.setDevise(compte.getDevise());
+        
+        publishEvent(event);
+    }
+    
+    public void publishClientAccountStatusUpdated(Client client, Compte compte) {
+        String fullName = client.getPrenom() + " " + client.getNom();
+        ClientEvent event = new ClientEvent(
+                client.getId(),
+                client.getEmail(),
+                fullName,
+                EventType.ACCOUNT_STATUS_UPDATED,
+                "Statut du compte mis à jour: " + compte.getStatutCompte().name()
+        );
+        
+        // Ajouter les informations du compte
+        event.setCompteId(compte.getId());
+        event.setNumeroCompte(compte.getNumeroCompte());
+        event.setIntituleCompte(compte.getIntitule());
+        event.setTypeCompte(compte.getTypeCompte().name());
+        event.setStatutCompte(compte.getStatutCompte().name());
+        event.setSolde(compte.getSolde());
+        event.setDevise(compte.getDevise());
+        
+        publishEvent(event);
+    }
+    
+    public void publishClientAccountCredited(Client client, Compte compte, BigDecimal montant) {
+        String fullName = client.getPrenom() + " " + client.getNom();
+        ClientEvent event = new ClientEvent(
+                client.getId(),
+                client.getEmail(),
+                fullName,
+                EventType.ACCOUNT_CREDITED,
+                "Compte crédité de " + montant + " " + compte.getDevise()
+        );
+        
+        // Ajouter les informations du compte
+        event.setCompteId(compte.getId());
+        event.setNumeroCompte(compte.getNumeroCompte());
+        event.setIntituleCompte(compte.getIntitule());
+        event.setTypeCompte(compte.getTypeCompte().name());
+        event.setStatutCompte(compte.getStatutCompte().name());
+        event.setMontant(montant);
+        event.setSolde(compte.getSolde());
+        event.setDevise(compte.getDevise());
+        
+        publishEvent(event);
+    }
+    
+    public void publishClientAccountDebited(Client client, Compte compte, BigDecimal montant) {
+        String fullName = client.getPrenom() + " " + client.getNom();
+        ClientEvent event = new ClientEvent(
+                client.getId(),
+                client.getEmail(),
+                fullName,
+                EventType.ACCOUNT_DEBITED,
+                "Compte débité de " + montant + " " + compte.getDevise()
+        );
+        
+        // Ajouter les informations du compte
+        event.setCompteId(compte.getId());
+        event.setNumeroCompte(compte.getNumeroCompte());
+        event.setIntituleCompte(compte.getIntitule());
+        event.setTypeCompte(compte.getTypeCompte().name());
+        event.setStatutCompte(compte.getStatutCompte().name());
+        event.setMontant(montant);
+        event.setSolde(compte.getSolde());
+        event.setDevise(compte.getDevise());
+        
         publishEvent(event);
     }
 
