@@ -10,6 +10,7 @@ Le système est basé sur une architecture microservices comprenant :
    - Gestion des clients et de leurs informations personnelles
    - Traitement des formulaires KYC
    - Gestion des revenus des clients
+   - Gestion des comptes des clients
    - Publication d'événements via Kafka
 
 2. **Document Service** (Port 8082)
