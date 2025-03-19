@@ -1,6 +1,7 @@
 package com.kyc.notification.service;
 
 import com.kyc.notification.model.ClientEvent;
+import com.kyc.notification.model.EventType;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -114,7 +115,7 @@ public class EmailService {
         sendEmail(event.getEmail(), subject, "account-created", variables);
     }
     
-    public void sendAccountStatusUpdateEmail(ClientEvent event) {
+    public void sendAccountStatusUpdatedEmail(ClientEvent event) {
         String subject = "Mise à jour du statut de votre compte";
         
         Map<String, Object> variables = new HashMap<>();
@@ -127,7 +128,8 @@ public class EmailService {
         sendEmail(event.getEmail(), subject, "account-status-update", variables);
     }
     
-    public void sendAccountTransactionEmail(ClientEvent event, boolean isCredit) {
+    public void sendTransactionEmail(ClientEvent event) {
+        boolean isCredit = EventType.ACCOUNT_CREDITED.equals(event.getEventType());
         String subject = isCredit ? "Crédit sur votre compte" : "Débit sur votre compte";
         
         Map<String, Object> variables = new HashMap<>();

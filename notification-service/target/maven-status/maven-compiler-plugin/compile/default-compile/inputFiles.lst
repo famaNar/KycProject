@@ -4,4 +4,5 @@
 /Users/mfamar/Desktop/ProjetKYC/notification-service/src/main/java/com/kyc/notification/service/ClientEventListener.java
 /Users/mfamar/Desktop/ProjetKYC/notification-service/src/main/java/com/kyc/notification/service/EmailService.java
 /Users/mfamar/Desktop/ProjetKYC/notification-service/src/main/java/com/kyc/notification/model/EventType.java
+/Users/mfamar/Desktop/ProjetKYC/notification-service/src/main/java/com/kyc/notification/service/EmailTemplateService.java
 /Users/mfamar/Desktop/ProjetKYC/notification-service/src/main/java/com/kyc/notification/model/ClientEvent.java

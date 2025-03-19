@@ -107,7 +107,7 @@ public class NotificationController {
         event.setIntituleCompte(intituleCompte);
         event.setStatutCompte(statutCompte);
         
-        emailService.sendAccountStatusUpdateEmail(event);
+        emailService.sendAccountStatusUpdatedEmail(event);
         return ResponseEntity.ok("Email de mise à jour de statut de compte envoyé avec succès à " + email);
     }
     
@@ -136,7 +136,7 @@ public class NotificationController {
         event.setSolde(solde);
         event.setDevise("EUR");
         
-        emailService.sendAccountTransactionEmail(event, isCredit);
+        emailService.sendTransactionEmail(event);
         String transactionType = isCredit ? "crédit" : "débit";
         return ResponseEntity.ok("Email de " + transactionType + " de compte envoyé avec succès à " + email);
     }

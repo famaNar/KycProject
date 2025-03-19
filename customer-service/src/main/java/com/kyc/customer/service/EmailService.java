@@ -22,6 +22,9 @@ public class EmailService {
     
     @Value("${server.port}")
     private String serverPort;
+    
+    @Value("${spring.mail.properties.mail.smtp.auth:true}")
+    private boolean smtpAuth;
 
     public EmailService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
@@ -73,6 +76,14 @@ public class EmailService {
     }
 
     private void sendHtmlEmail(String to, String subject, String htmlContent) {
+        // Si l'authentification SMTP est désactivée, on simule l'envoi d'email
+        if (!smtpAuth) {
+            logger.info("SIMULATION: Email envoyé à : {}", to);
+            logger.info("SIMULATION: Sujet : {}", subject);
+            logger.info("SIMULATION: Contenu HTML : {}", htmlContent.substring(0, Math.min(100, htmlContent.length())) + "...");
+            return;
+        }
+        
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");

@@ -8,9 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
+import org.springframework.util.concurrent.ListenableFuture;
 
 import java.math.BigDecimal;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class ClientEventService {
@@ -74,8 +77,6 @@ public class ClientEventService {
         publishEvent(event);
     }
     
-    // Nouvelles méthodes pour les événements liés aux comptes
-    
     public void publishClientAccountCreated(Client client, Compte compte) {
         String fullName = client.getPrenom() + " " + client.getNom();
         ClientEvent event = new ClientEvent(
@@ -86,7 +87,6 @@ public class ClientEventService {
                 "Nouveau compte créé: " + compte.getIntitule()
         );
         
-        // Ajouter les informations du compte
         event.setCompteId(compte.getId());
         event.setNumeroCompte(compte.getNumeroCompte());
         event.setIntituleCompte(compte.getIntitule());
@@ -108,7 +108,6 @@ public class ClientEventService {
                 "Statut du compte mis à jour: " + compte.getStatutCompte().name()
         );
         
-        // Ajouter les informations du compte
         event.setCompteId(compte.getId());
         event.setNumeroCompte(compte.getNumeroCompte());
         event.setIntituleCompte(compte.getIntitule());
@@ -130,7 +129,6 @@ public class ClientEventService {
                 "Compte crédité de " + montant + " " + compte.getDevise()
         );
         
-        // Ajouter les informations du compte
         event.setCompteId(compte.getId());
         event.setNumeroCompte(compte.getNumeroCompte());
         event.setIntituleCompte(compte.getIntitule());
@@ -153,7 +151,6 @@ public class ClientEventService {
                 "Compte débité de " + montant + " " + compte.getDevise()
         );
         
-        // Ajouter les informations du compte
         event.setCompteId(compte.getId());
         event.setNumeroCompte(compte.getNumeroCompte());
         event.setIntituleCompte(compte.getIntitule());
@@ -168,10 +165,25 @@ public class ClientEventService {
 
     private void publishEvent(ClientEvent event) {
         try {
-            logger.info("Publication d'un événement client: {}", event);
-            kafkaTemplate.send(clientEventsTopic, event);
+            logger.info("Début de la publication d'un événement client: {}", event);
+            logger.info("Topic Kafka cible: {}", clientEventsTopic);
+            
+            CompletableFuture<SendResult<String, Object>> future = kafkaTemplate.send(clientEventsTopic, event);
+            
+            future.whenComplete((result, ex) -> {
+                if (ex == null) {
+                    logger.info("Événement client publié avec succès: topic={}, partition={}, offset={}", 
+                        result.getRecordMetadata().topic(),
+                        result.getRecordMetadata().partition(),
+                        result.getRecordMetadata().offset());
+                } else {
+                    logger.error("Erreur lors de la publication de l'événement client: {}", ex.getMessage(), ex);
+                }
+            });
         } catch (Exception e) {
-            logger.error("Erreur lors de la publication d'un événement client: {}", e.getMessage(), e);
+            logger.error("Exception lors de la publication d'un événement client: {}", e.getMessage(), e);
+            logger.error("Détails de l'événement qui a échoué: {}", event);
+            throw new RuntimeException("Erreur lors de la publication de l'événement client", e);
         }
     }
 }

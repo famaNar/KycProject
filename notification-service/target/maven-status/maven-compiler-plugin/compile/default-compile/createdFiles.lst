@@ -1,5 +1,6 @@
 com/kyc/notification/service/EmailService.class
 com/kyc/notification/NotificationServiceApplication.class
+com/kyc/notification/service/EmailTemplateService.class
 com/kyc/notification/controller/NotificationController.class
 com/kyc/notification/model/ClientEvent.class
 com/kyc/notification/config/KafkaConfig.class
