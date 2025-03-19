@@ -3,6 +3,8 @@ package com.kyc.notification.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public class EmailTemplateService {
 
@@ -56,5 +58,80 @@ public class EmailTemplateService {
                 <p>Cordialement,<br>L'équipe KYC</p>
             </div>
             """, fullName, reason);
+    }
+
+    public String generateAccountCreatedEmailContent(String fullName, String numeroCompte, String typeCompte, String devise) {
+        return String.format("""
+            <div style='font-family: Arial, sans-serif; padding: 20px;'>
+                <h2>Nouveau Compte Créé - %s</h2>
+                <p>Cher(e) %s,</p>
+                <p>Votre nouveau compte a été créé avec succès :</p>
+                <div style='background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 10px 0;'>
+                    <p><strong>Numéro de compte :</strong> %s</p>
+                    <p><strong>Type de compte :</strong> %s</p>
+                    <p><strong>Devise :</strong> %s</p>
+                </div>
+                <p>Vous pouvez dès maintenant effectuer des opérations sur ce compte.</p>
+                <p>Cordialement,<br>L'équipe KYC</p>
+            </div>
+            """, typeCompte, fullName, numeroCompte, typeCompte, devise);
+    }
+
+    public String generateTransactionEmailContent(String fullName, String numeroCompte, BigDecimal montant, 
+                                                BigDecimal nouveauSolde, String typeOperation, String devise) {
+        String operationText = typeOperation.equals("CREDIT") ? "Dépôt effectué" : "Retrait effectué";
+        String signeMontant = typeOperation.equals("CREDIT") ? "+" : "-";
+        
+        return String.format("""
+            <div style='font-family: Arial, sans-serif; padding: 20px;'>
+                <h2>%s</h2>
+                <p>Cher(e) %s,</p>
+                <p>Une opération a été effectuée sur votre compte :</p>
+                <div style='background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 10px 0;'>
+                    <p><strong>Compte :</strong> %s</p>
+                    <p><strong>Montant :</strong> <span style='color: %s;'>%s%s %s</span></p>
+                    <p><strong>Nouveau solde :</strong> %s %s</p>
+                </div>
+                <p style='font-size: 0.9em; color: #6c757d;'>
+                    Si vous n'êtes pas à l'origine de cette opération, contactez-nous immédiatement.
+                </p>
+                <p>Cordialement,<br>L'équipe KYC</p>
+            </div>
+            """, 
+            operationText,
+            fullName, 
+            numeroCompte,
+            typeOperation.equals("CREDIT") ? "#28a745" : "#dc3545",
+            signeMontant,
+            montant,
+            devise,
+            nouveauSolde,
+            devise);
+    }
+
+    public String generateAccountStatusEmailContent(String fullName, String numeroCompte, String nouveauStatut) {
+        String statusMessage = switch(nouveauStatut) {
+            case "BLOQUE" -> "Votre compte a été temporairement bloqué. Veuillez nous contacter pour plus d'informations.";
+            case "FERME" -> "Votre compte a été fermé. Si vous pensez qu'il s'agit d'une erreur, contactez-nous.";
+            case "ACTIF" -> "Votre compte est maintenant actif et peut être utilisé normalement.";
+            default -> "Le statut de votre compte a été modifié.";
+        };
+
+        return String.format("""
+            <div style='font-family: Arial, sans-serif; padding: 20px;'>
+                <h2>Modification du Statut de Compte</h2>
+                <p>Cher(e) %s,</p>
+                <div style='background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 10px 0;'>
+                    <p><strong>Compte :</strong> %s</p>
+                    <p><strong>Nouveau statut :</strong> %s</p>
+                </div>
+                <p>%s</p>
+                <p>Cordialement,<br>L'équipe KYC</p>
+            </div>
+            """, 
+            fullName,
+            numeroCompte,
+            nouveauStatut,
+            statusMessage);
     }
 }
