@@ -119,10 +119,4 @@ mvn spring-boot:run
 
 ## Sécurité
 
-Cette version initiale se concentre sur les fonctionnalités de base sans implémentation complexe de sécurité. Dans une version de production, il faudrait ajouter :
-
-- Authentification OAuth2/JWT
-- Chiffrement des données sensibles
-- HTTPS pour toutes les communications
-- Validation approfondie des entrées
-- Gestion des rôles et permissions
+Cette version initiale se concentre sur les fonctionnalités de base sans implémentation complexe de sécurité.
